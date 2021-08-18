@@ -9,29 +9,25 @@ function App() {
   const [modalOpen, setModalOpen] = useState(false);
   const [range, setRange] = useState(null);
   const boardRef = useRef();
-  const katexPreviewRef = useRef();
+  const katexPreRef = useRef();
 
   useEffect(() => {
-    renderMathInElement(katexPreviewRef.current, {
-      delimiters: [{left: "$$", right: "$$", display: false},]
+    renderMathInElement(katexPreRef.current, {
+      delimiters: [{ left: "$$", right: "$$", display: false },]
     });
   }, [boardWrite]);
 
   const texEditorOpen = () => {
     let selection = window.getSelection().containsNode(boardRef.current, true);
-    if(!selection)
+    if (!selection)
       boardRef.current.focus();
     setRange(window.getSelection().getRangeAt(0));
     setModalOpen(true);
   };
 
   const texEditorClose = () => {
+    setBoardWrite(boardRef.current.textContent);
     setModalOpen(false);
-  }
-
-  const boardChange = (e) => {
-    console.log(boardWrite);
-    setBoardWrite(e.target.value);
   }
 
   return (
@@ -40,14 +36,14 @@ function App() {
         <div id="bar">
           <button onClick={texEditorOpen}>수식</button>
         </div>
-        <textarea id="board" ref={boardRef} value={boardWrite} onChange={boardChange}>
-        
-        </textarea>
-        <div id="boardPreview" ref={katexPreviewRef}>
+        <div id="board" ref={boardRef} contentEditable onInput={(e) => setBoardWrite(e.currentTarget.textContent)}>
+        </div>
+        <div id="boardPre" ref={katexPreRef}>
           {boardWrite}
         </div>
       </div>
-      {modalOpen &&
+      {
+        modalOpen &&
         <TexEditor
           texEditorClose={texEditorClose}
           range={range}
