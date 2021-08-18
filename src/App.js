@@ -12,7 +12,9 @@ function App() {
   const katexPreviewRef = useRef();
 
   useEffect(() => {
-    renderMathInElement(katexPreviewRef.current);
+    renderMathInElement(katexPreviewRef.current, {
+      delimiters: [{left: "$$", right: "$$", display: false},]
+    });
   }, [boardWrite]);
 
   const texEditorOpen = () => {
@@ -39,7 +41,7 @@ function App() {
           <button onClick={texEditorOpen}>수식</button>
         </div>
         <textarea id="board" ref={boardRef} value={boardWrite} onChange={boardChange}>
-
+        
         </textarea>
         <div id="boardPreview" ref={katexPreviewRef}>
           {boardWrite}
