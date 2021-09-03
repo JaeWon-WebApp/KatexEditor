@@ -24,7 +24,7 @@ function TexEditor(props) {
   }
 
   const insertTex = () => {
-    let node = document.createTextNode(`$$${texStr}$$`);
+    let node = document.createTextNode(`$${texStr}$`);
     props.range.deleteContents();
     props.range.insertNode(node);
     modalClose();
